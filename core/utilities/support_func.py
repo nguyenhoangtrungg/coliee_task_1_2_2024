@@ -11,11 +11,18 @@ def preprocess(raw_text):
     raw_text = raw_text.replace("\n", " ")
     raw_text = raw_text.replace("\t", " ")
     raw_text = raw_text.replace("\r", " ")
-    raw_text = raw_text.replace(";", "")
-    raw_text = raw_text.replace(".", "")
-    raw_text = raw_text.replace(":", "")
+    # raw_text = raw_text.replace(";", "")
+    # raw_text = raw_text.replace(".", "")
+    # raw_text = raw_text.replace(":", "")
     return " ".join(raw_text.split())
 
+def list_preprocess(raw_list):
+    output = []
+    for i in range(len(raw_list)):
+        if raw_list[i] == "":
+            continue
+        output.append(preprocess(raw_list[i]))
+    return output
 
 def html_preprocess(raw_text):
     raw_text = raw_text.strip()

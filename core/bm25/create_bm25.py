@@ -8,11 +8,7 @@ def create_bm25_model(corpus):
     # content_list = create_data.get_content_list(corpus)
     content_list = corpus
 
-    print("BM25: Creating corpus...")
-
     tokenized_corpus = [doc.split(" ") for doc in content_list]
-
-    print("BM25: Creating model...")
 
     return BM25Okapi(tokenized_corpus), content_list
 
@@ -36,12 +32,11 @@ def single_query_bm25(query, corpus, bm25_model, topk):
     top_list = np.argsort(score_list)[::-1][:topk]
     output_list = []
     for i in top_list:
-        text, law_id, article_id = corpus[i]
+        name_path = corpus[i].split("#$%")[0]
         local_data = {
-            "law_id": law_id,
-            "article_id": article_id,
-            "content": text,
-            "bm25_score": score_list[i],
+            "content": corpus[i].split("#$%")[1],
+            "name": name_path,
+            "score": score_list[i],
         }
         output_list.append(local_data)
     return output_list
