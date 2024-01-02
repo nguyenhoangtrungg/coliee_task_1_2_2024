@@ -11,7 +11,7 @@ TESTING_PATH="data\task2_case_entailment\dev"
 LABEL_PATH="data\task2_case_entailment\task2_train_labels_2024.json"
 CSV_TRAINING_DATA_PATH="data\task2_case_entailment\train.csv"
 CSV_TESTING_DATA_PATH="data\task2_case_entailment\dev.csv"
-NEGATIVE_MODE="hard"
+NEGATIVE_MODE="random"
 NEGATIVE_NUM="5"
 FAST_DEV_RUN="1"
 

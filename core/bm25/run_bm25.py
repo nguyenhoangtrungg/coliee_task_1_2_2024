@@ -96,7 +96,7 @@ def create_single_csv_format(case, negative_mode="random", negative_num=5):
         ran_list = support_func.random_list(ran_content_list, negative_num)
         ran_list.sort()
         for i in ran_list:
-            id_list.append(ran_id_list["id"])
+            id_list.append(ran_id_list[i])
             fragment_list.append(ran_fragment_list[i])
             content_list.append(ran_content_list[i])
             name_list.append(ran_name_list[i])
