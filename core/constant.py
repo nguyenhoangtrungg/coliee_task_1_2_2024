@@ -25,7 +25,7 @@ args = parser.parse_args()
 MODE = args.mode
 PRETRAIN_MODEL = args.pretrained_model
 FREEZE_MODE = args.freeze_mode
-CHECKPOINT = args.checkpoint
+CHECKPOINT = args.checkpoint_path
 
 BATCH_SIZE = args.batch_size
 N_EPOCH = args.num_epochs
