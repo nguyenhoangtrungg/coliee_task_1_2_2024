@@ -4,6 +4,11 @@ from core.utilities import support_func
 import os
 import json
 
+import numpy as np
+import pandas as pd
+
+from tqdm import tqdm
+
 def create_case(folder_path):
     base_case = os.path.join(folder_path, "base_case.txt")
     entailed_fragment = os.path.join(folder_path, "entailed_fragment.txt")
@@ -33,21 +38,122 @@ def run_bm25(folder_path, label_list, topk=5):
     output = create_bm25.single_query_bm25(entailed_fragment, corpus, bm25_model, topk)
     # bm25 = create_bm25(list_paragraphs)
     return {
+        "id": folder_path[-3:],
         "entailed_fragment": entailed_fragment,
         "label": label_list,
         "output": output,
     }
 
+def create_single_csv_format(case, negative_mode="random", negative_num=5):
+    id_list = []
+    fragment_list = []
+    content_list = []
+    name_list = []
+    score_list = []
+    label_list = []
+    for content in case["output"]:
+        if content["name"] in case["label"]:
+            id_list.append(case["id"])
+            fragment_list.append(case["entailed_fragment"])
+            content_list.append(content["content"])
+            name_list.append(content["name"])
+            score_list.append(content["score"])
+            label_list.append(1)
+
+    current_negative_num = 0
+
+    if negative_mode == "hard":
+        for content in case["output"]:
+            if current_negative_num >= negative_num:
+                break
+            if content["name"] not in case["label"]:
+                id_list.append(case["id"])
+                fragment_list.append(case["entailed_fragment"])
+                content_list.append(content["content"])
+                name_list.append(content["name"])
+                score_list.append(content["score"])
+                label_list.append(0)
+                current_negative_num += 1
+
+    elif negative_mode == "random":
+        ran_id_list = []
+        ran_fragment_list = []
+        ran_content_list = []
+        ran_name_list = []
+        ran_score_list = []
+        ran_label_list = []
+        for content in case["output"]:
+            if content["name"] not in case["label"]:
+                ran_id_list.append(case["id"])
+                ran_fragment_list.append(case["entailed_fragment"])
+                ran_content_list.append(content["content"])
+                ran_name_list.append(content["name"])
+                ran_score_list.append(content["score"])
+                ran_label_list.append(0)
+        if len(ran_fragment_list) < negative_num:
+            negative_num = len(ran_fragment_list)
+
+        ran_list = support_func.random_list(ran_content_list, negative_num)
+        ran_list.sort()
+        for i in ran_list:
+            id_list.append(ran_id_list["id"])
+            fragment_list.append(ran_fragment_list[i])
+            content_list.append(ran_content_list[i])
+            name_list.append(ran_name_list[i])
+            score_list.append(ran_score_list[i])
+            label_list.append(ran_label_list[i])
+
+    df = pd.DataFrame({
+        "id": id_list,
+        "fragment": fragment_list,
+        "content": content_list,
+        "name": name_list,
+        "score": score_list,
+        "label": label_list,
+    })
+
+    return df
+
+def create_csv_format(case_list, model_mode, negative_mode="random", negative_num=5):
+    if model_mode == "test":
+        negative_mode = "hard"
+        negative_num = 1000
+    total_df = pd.DataFrame()
+    for i in tqdm(range(len(case_list))):
+        case = case_list[i]
+        df = create_single_csv_format(case, negative_mode, negative_num)
+        total_df = pd.concat([total_df, df])
+    return total_df
+
+def run_create_csv_bm25(data_path, label_path, output_path, model_mode, negative_mode="random", negative_num=5):
+    data_list = os.listdir(data_path)
+    if model_mode == "infer":
+        label = {}
+    else:
+        label = support_func.read_json(label_path)
+    output = []
+    for i in tqdm(range(len(data_list))):
+        data = data_list[i]
+        if model_mode == "infer":
+            label_list = []
+        else:
+            try:
+                label_list = label[data]
+            except:
+                label_list = []
+        output_bm25 = run_bm25(os.path.join(data_path, data), label_list, 100)
+        output.append(output_bm25)
+    
+    df = create_csv_format(output, model_mode, negative_mode, negative_num)
+    if model_mode == "train":
+        df = df.sample(frac=1).reset_index(drop=True)
+    df.to_csv(output_path, index=False)
+    return df
+
+
 if __name__ == "__main__":
     label_path = "data/task2_case_entailment/task2_train_labels_2024.json"
-    label_list = support_func.read_json(label_path)
-    folder_path = "data/task2_case_entailment/task2_train_files_2024"
-    folder_path_list = os.listdir(folder_path)
-    output = []
-    for folder in folder_path_list:
-        label = label_list[folder]
-        output_bm25 = run_bm25(os.path.join(folder_path, folder), label, 50)
-        output.append(output_bm25)
+    folder_path = "data/task2_case_entailment/train"
+    output_path = "data/task2_output/task2_random.csv"
 
-    with open("data/task2_output/task2_train_bm25_2024.json", "w", encoding="utf-8") as f:
-        json.dump(output, f, indent=2)
+    run_create_csv_bm25(folder_path, label_path, output_path, "train", "hard", 5)

@@ -100,6 +100,15 @@ def get_list(input_path):
 def random_num(end_ran):
     return random.randint(0, end_ran - 1)
 
+def random_list(input_list, num):
+    output_list = []
+    while len(output_list) < num:
+        ran = random_num(len(input_list))
+        if ran not in output_list:
+            output_list.append(ran)
+    
+    return output_list
+
 
 def concat_csv(csv_list):
     df = pd.concat(csv_list, ignore_index=True)
