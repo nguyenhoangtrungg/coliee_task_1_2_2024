@@ -5,6 +5,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--mode", help="Running mode", default="None")
 parser.add_argument("--pretrained_model", help="Pretrain model", default="None")
 parser.add_argument("--freeze_mode", help="Freeze mode", default="None")
+parser.add_argument("--checkpoint", help="Path checkpoint", default="None")
 
 parser.add_argument("--batch_size", help="Batch size for training", default=8, type=int)
 parser.add_argument("--num_epochs", help="Number of epoch for training", default=10, type=int)
@@ -24,6 +25,7 @@ args = parser.parse_args()
 MODE = args.mode
 PRETRAIN_MODEL = args.pretrained_model
 FREEZE_MODE = args.freeze_mode
+CHECKPOINT = args.checkpoint
 
 BATCH_SIZE = args.batch_size
 N_EPOCH = args.num_epochs

@@ -7,8 +7,6 @@ from core.model import model_dataset
 
 import torch
 import torch.nn as nn
-import argparse
-import transformers
 from transformers import BertTokenizer, BertForSequenceClassification, TrainingArguments, Trainer
 
 from constant import *
