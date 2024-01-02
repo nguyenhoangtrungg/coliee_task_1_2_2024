@@ -14,6 +14,7 @@ CSV_TESTING_DATA_PATH="data\task2_case_entailment\dev.csv"
 NEGATIVE_MODE="random"
 NEGATIVE_NUM="5"
 FAST_DEV_RUN="1"
+W_LOST="1.0"
 
 
 PYTHONPATH=$WORKSPACE python $TRAINING_FILE \
@@ -30,5 +31,6 @@ PYTHONPATH=$WORKSPACE python $TRAINING_FILE \
     --csv_testing_data_path $CSV_TESTING_DATA_PATH \
     --negative_mode $NEGATIVE_MODE \
     --negative_num $NEGATIVE_NUM \
-    --fast_dev_run $FAST_DEV_RUN
+    --fast_dev_run $FAST_DEV_RUN \
+    --w_lost $W_LOST
 ```
