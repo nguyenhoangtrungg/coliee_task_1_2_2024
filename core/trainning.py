@@ -24,7 +24,7 @@ softmax_model = nn.Softmax(dim=1)
 train_df = run_create_csv_bm25(TRAINING_PATH, LABEL_PATH, CSV_TRAINING_DATA_PATH, "train", NEGATIVE_MODE, NEGATIVE_NUM)
 valid_df = run_create_csv_bm25(TESTING_PATH, LABEL_PATH, CSV_TESTING_DATA_PATH, "test", NEGATIVE_MODE, NEGATIVE_NUM)
 
-if FAST_DEV_RUN == 1:
+if FAST_DEV_RUN == "1":
     train_df = train_df[:40]
     valid_df = valid_df[:40]
 
