@@ -59,7 +59,7 @@ def create_single_csv_format(case, negative_mode="random", negative_num=5):
             name_list.append(content["name"])
             score_list.append(content["score"])
             label_list.append(1)
-
+    negative_num *= len(case["label"])
     current_negative_num = 0
 
     if negative_mode == "hard":

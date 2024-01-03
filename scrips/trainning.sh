@@ -11,10 +11,10 @@ TESTING_PATH="data\task2_case_entailment\dev"
 LABEL_PATH="data\task2_case_entailment\task2_train_labels_2024.json"
 CSV_TRAINING_DATA_PATH="data\task2_case_entailment\train.csv"
 CSV_TESTING_DATA_PATH="data\task2_case_entailment\dev.csv"
-NEGATIVE_MODE="random"
-NEGATIVE_NUM="5"
+NEGATIVE_MODE="hard"
+NEGATIVE_NUM="1"
 FAST_DEV_RUN="1"
-W_LOST="1.0"
+W_LOSS="1.0"
 
 
 PYTHONPATH=$WORKSPACE python $TRAINING_FILE \
@@ -32,5 +32,5 @@ PYTHONPATH=$WORKSPACE python $TRAINING_FILE \
     --negative_mode $NEGATIVE_MODE \
     --negative_num $NEGATIVE_NUM \
     --fast_dev_run $FAST_DEV_RUN \
-    --w_lost $W_LOST
+    --w_loss $W_LOSS
 ```
