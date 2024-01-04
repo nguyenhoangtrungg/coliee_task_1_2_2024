@@ -5,6 +5,7 @@ from core.utilities import support_func
 from core.model import metrics
 from core.bm25.run_bm25 import run_create_csv_bm25
 from core.model import model_dataset
+from core.model import infer_model
 
 import torch
 import torch.nn as nn
@@ -87,5 +88,5 @@ for file in list_output_dir:
     if "checkpoint" in file:
         print("Found checkpoint:", file)
         checkpoint_path = os.path.join("/kaggle/working", file)
-        df = df
+        df = infer_model.encode_csv(valid_df, 1, checkpoint_path)
         support_func.write_csv(checkpoint_path + ".csv", df)
