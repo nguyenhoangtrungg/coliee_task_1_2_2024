@@ -12,8 +12,6 @@ model = AutoModelForSequenceClassification.from_pretrained(CHECKPOINT).to(device
 
 softmax_model = nn.Softmax(dim=1)
 
-softmax_model = nn.Softmax(dim=1)
-
 def take_predict_label(logits):
     logits = softmax_model(logits)
     logits = logits.tolist()
@@ -22,8 +20,7 @@ def take_predict_label(logits):
         label_1_score.append(i[1])
     return label_1_score
 
-
-def model_encode(questions, articles):
+def model_encode(questions, articles, checkpoint_model="Default"):
     """
     Encode questions and articles
     """
@@ -35,10 +32,13 @@ def model_encode(questions, articles):
             padding="max_length",
             truncation=True,
         ).to(device)
-        output = model(**encoded_input)
+        if checkpoint_model == "Default":
+            output = model(**encoded_input)
+        else:
+            output = checkpoint_model(**encoded_input)
         return take_predict_label(output.logits)
     
-def model_batch_encode(questions, articles, batch_size):
+def model_batch_encode(questions, articles, batch_size, checkpoint_model="Default"):
     """
     Encode questions and articles in batch size
     """
@@ -49,16 +49,23 @@ def model_batch_encode(questions, articles, batch_size):
         i_end = i + batch_size
         local_questions = questions[i_start:i_end]
         local_articles = articles[i_start:i_end]
-        local_predict = model_encode(local_questions, local_articles)
+        if checkpoint_model == "Default":
+            local_predict = model_encode(local_questions, local_articles)
+        else:
+            local_predict = model_encode(local_questions, local_articles, checkpoint_model)
         predicts.extend(local_predict)
     return predicts
 
-def encode_csv(df, batch_size):
+def encode_csv(df, batch_size, checkpoint_model="Default"):
     """
     Encode csv file
     """
     questions = df["fragment"].tolist()
     articles = df["content"].tolist()
-    predicts = model_batch_encode(questions, articles, batch_size)
+    if checkpoint_model == "Default":
+        predicts = model_batch_encode(questions, articles, batch_size)
+    else:
+        local_model = AutoModelForSequenceClassification.from_pretrained(checkpoint_model).to(device)
+        predicts = model_batch_encode(questions, articles, batch_size, local_model)
     df["bert_score"] = predicts
     return df

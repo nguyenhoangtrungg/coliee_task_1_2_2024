@@ -1,4 +1,5 @@
 import math
+import os
 
 from core.utilities import support_func
 from core.model import metrics
@@ -45,6 +46,7 @@ if FREEZE_MODE == 1:
 
 training_args = TrainingArguments(
     output_dir = '/kaggle/working/',
+    learning_rate = LEARNING_RATE,
     num_train_epochs = N_EPOCH,
     per_device_train_batch_size = BATCH_SIZE,  
     per_device_eval_batch_size= 1,
@@ -79,3 +81,11 @@ trainer = CustomTrainer(
 
 print("Start training...")
 trainer.train()
+
+list_output_dir = os.listdir("/kaggle/working")
+for file in list_output_dir:
+    if "checkpoint" in file:
+        print("Found checkpoint:", file)
+        checkpoint_path = os.path.join("/kaggle/working", file)
+        df = df
+        support_func.write_csv(checkpoint_path + ".csv", df)
