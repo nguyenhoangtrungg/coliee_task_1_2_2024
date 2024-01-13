@@ -7,7 +7,7 @@ import os
 from sklearn.metrics import accuracy_score, precision_recall_fscore_support
 
 
-from task1.constant import *
+from core.task1_constant import *
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
