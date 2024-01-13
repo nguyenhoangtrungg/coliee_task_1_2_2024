@@ -64,7 +64,6 @@ val_dataset = LongFormerDataset(val_data['case'], val_data['candidate'], val_lab
 
 softmax_model = nn.Softmax(dim=1)
 
-os.environ["WANDB_DISABLED"] = "true"
 training_args = TrainingArguments(
     output_dir = '/kaggle/working/',
     num_train_epochs = N_EPOCH,
@@ -75,7 +74,6 @@ training_args = TrainingArguments(
     save_strategy="epoch",
     disable_tqdm = False, 
     load_best_model_at_end=True,
-    run_name = 'longformer-classification',
     learning_rate = LEARNING_RATE,
 )
 
@@ -94,7 +92,7 @@ def compute_metrics(pred):
 
 class CustomTrainer(Trainer):
     def compute_loss(self, model, inputs, return_outputs=False):
-        label_rate = [1.0, W_LOSS]
+        label_rate = [1.0, float(W_LOSS)]
         labels = inputs.pop("labels")
         outputs = model(**inputs)
         logits = softmax_model(outputs.get("logits"))

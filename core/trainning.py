@@ -60,7 +60,7 @@ training_args = TrainingArguments(
 
 class CustomTrainer(Trainer):
     def compute_loss(self, model, inputs, return_outputs=False):
-        label_rate = [1.0, float(NEGATIVE_NUM)]
+        label_rate = [1.0, float(W_LOSS)]
         print("Rate:", label_rate)
         labels = inputs.pop("labels")
         outputs = model(**inputs)
