@@ -6,6 +6,7 @@ from core.model import metrics
 from core.bm25.run_bm25 import run_create_csv_bm25
 from core.model import model_dataset
 from core.model import infer_model
+from core.weak_label import create_weak_dataset
 
 import torch
 import torch.nn as nn
@@ -20,8 +21,13 @@ sigmoid_model = torch.nn.Sigmoid()
 softmax_model = nn.Softmax(dim=1)
 
 
+if CHOOSE_WEAK == 0:
 # DATA LOADING
-train_df = run_create_csv_bm25(TRAINING_PATH, LABEL_PATH, CSV_TRAINING_DATA_PATH, "train", NEGATIVE_MODE, NEGATIVE_NUM)
+    train_df = run_create_csv_bm25(TRAINING_PATH, LABEL_PATH, CSV_TRAINING_DATA_PATH, "train", NEGATIVE_MODE, NEGATIVE_NUM)
+
+elif CHOOSE_WEAK == 1:
+    train_df = create_weak_dataset.create_weak_dataset(WEAK_DATASET_PATH, MIN_LEN, MAX_LEN)
+
 valid_df = run_create_csv_bm25(TESTING_PATH, LABEL_PATH, CSV_TESTING_DATA_PATH, "test", NEGATIVE_MODE, NEGATIVE_NUM)
 
 if FAST_DEV_RUN == "1":

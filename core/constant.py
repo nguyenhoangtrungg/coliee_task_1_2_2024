@@ -22,6 +22,10 @@ parser.add_argument("--negative_mode", help="Negative mode", default="None")
 parser.add_argument("--negative_num", help="Number of negative sample", default=5, type=int)
 parser.add_argument("--fast_dev_run", help="Fast dev run", default=0)
 
+parser.add_argument("--choose_weak", help="Choose week", default=0, type=int)
+parser.add_argument("--weak_dataset_path", help="Path to weak dataset", default="None")
+parser.add_argument("--min_weak_datas", help="Min weak datas", default=0, type=int)
+parser.add_argument("--max_weak_datas", help="Max weak datas", default=0, type=int)
 
 args = parser.parse_args()
 
@@ -45,3 +49,8 @@ NEGATIVE_MODE = args.negative_mode
 NEGATIVE_NUM = args.negative_num
 
 FAST_DEV_RUN = args.fast_dev_run
+
+CHOOSE_WEAK = args.choose_weak
+WEAK_DATASET_PATH = args.weak_dataset_path
+MIN_LEN = args.min_weak_datas
+MAX_LEN = args.max_weak_datas
