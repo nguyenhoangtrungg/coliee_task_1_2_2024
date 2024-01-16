@@ -20,9 +20,8 @@ def sigmoid(x):
 sigmoid_model = torch.nn.Sigmoid()
 softmax_model = nn.Softmax(dim=1)
 
-
-if CHOOSE_WEAK == 0:
 # DATA LOADING
+if CHOOSE_WEAK == 0:
     train_df = run_create_csv_bm25(TRAINING_PATH, LABEL_PATH, CSV_TRAINING_DATA_PATH, "train", NEGATIVE_MODE, NEGATIVE_NUM)
 
 elif CHOOSE_WEAK == 1:
@@ -61,7 +60,8 @@ training_args = TrainingArguments(
     logging_strategy="epoch",
     save_strategy="epoch",
     disable_tqdm = False, 
-    load_best_model_at_end=True
+    load_best_model_at_end=True,
+    save_total_limit = 5
 )
 
 class CustomTrainer(Trainer):
@@ -76,15 +76,24 @@ class CustomTrainer(Trainer):
         loss = loss_fct(logits.view(-1, self.model.config.num_labels), labels.view(-1))
         
         return (loss, outputs) if return_outputs else loss
-    
 
-trainer = CustomTrainer(
-    model=model,
-    args=training_args,
-    compute_metrics=metrics.compute_metrics,
-    train_dataset=train_dataset,
-    eval_dataset=valid_dataset
-)
+if OPTIMIZER == "SGD":    
+    trainer = CustomTrainer(
+        model=model,
+        args=training_args,
+        compute_metrics=metrics.compute_metrics,
+        train_dataset=train_dataset,
+        eval_dataset=valid_dataset,
+        optimizers = (torch.optim.SGD(model.parameters(), lr=LEARNING_RATE), None)
+    )
+else:
+    trainer = CustomTrainer(
+        model=model,
+        args=training_args,
+        compute_metrics=metrics.compute_metrics,
+        train_dataset=train_dataset,
+        eval_dataset=valid_dataset,
+    )
 
 print("Start training...")
 trainer.train()

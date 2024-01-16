@@ -12,6 +12,7 @@ parser.add_argument("--num_epochs", help="Number of epoch for training", default
 parser.add_argument("--used_gpu", help="Number of gpu for training", default=0, type=int)
 parser.add_argument("--w_loss", help="Weight loss", default=0, type=float)
 parser.add_argument("--learning_rate", help="Learning rate", default=5e-5, type=float)
+parser.add_argument("--optimizer", help="Optimizer", default="adam")
 
 parser.add_argument("--training_path", help="Path to training data", default="None")
 parser.add_argument("--testing_path", help="Path to testing data", default="None")
@@ -39,6 +40,7 @@ N_EPOCH = args.num_epochs
 USED_GPU = args.used_gpu
 W_LOSS = args.w_loss
 LEARNING_RATE = args.learning_rate
+OPTIMIZER = args.optimizer
 
 TRAINING_PATH = args.training_path
 TESTING_PATH = args.testing_path
