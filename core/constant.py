@@ -4,6 +4,7 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument("--mode", help="Running mode", default="None")
 parser.add_argument("--pretrained_model", help="Pretrain model", default="bert-base-multilingual-cased")
+parser.add_argument("--tokenizer_path", help="Path to tokenizer", default="bert-base-multilingual-cased")
 parser.add_argument("--freeze_mode", help="Freeze mode", default="None")
 parser.add_argument("--checkpoint_path", help="Path checkpoint", default="bert-base-multilingual-cased")
 
@@ -34,6 +35,7 @@ MODE = args.mode
 PRETRAIN_MODEL = args.pretrained_model
 FREEZE_MODE = args.freeze_mode
 CHECKPOINT = args.checkpoint_path
+TOKENIZER = args.tokenizer_path
 
 BATCH_SIZE = args.batch_size
 N_EPOCH = args.num_epochs
