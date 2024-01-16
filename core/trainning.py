@@ -40,7 +40,7 @@ valid_dataset = model_dataset.MultilingualBertDataset(valid_df["fragment"].tolis
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-tokenizer = BertTokenizer.from_pretrained(PRETRAIN_MODEL)
+tokenizer = BertTokenizer.from_pretrained(TOKENIZER)
 model = BertForSequenceClassification.from_pretrained(PRETRAIN_MODEL, num_labels=2)
 model.to(device)
 

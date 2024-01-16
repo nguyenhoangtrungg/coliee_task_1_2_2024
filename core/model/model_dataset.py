@@ -1,7 +1,7 @@
 import torch
 from transformers import BertTokenizer
 
-from constant import PRETRAIN_MODEL
+from constant import PRETRAIN_MODEL, TOKENIZER
 
 
 class MultilingualBertDataset(torch.utils.data.Dataset):
@@ -10,7 +10,7 @@ class MultilingualBertDataset(torch.utils.data.Dataset):
         self.fragment = fragment
         self.content = content
         self.labels = labels
-        self.tokenizer = BertTokenizer.from_pretrained(PRETRAIN_MODEL)
+        self.tokenizer = BertTokenizer.from_pretrained(TOKENIZER)
 
     def __len__(self):
         return len(self.labels)
