@@ -34,6 +34,8 @@ if FAST_DEV_RUN == "1":
     train_df = train_df[:40]
     valid_df = valid_df[:40]
 
+print(valid_df["label"][:10])
+
 train_dataset = t5_model_dataset.T5Dataset(train_df["fragment"].tolist(), train_df["content"].tolist(), train_df["label"].tolist())
 valid_dataset = t5_model_dataset.T5Dataset(valid_df["fragment"].tolist(), valid_df["content"].tolist(), valid_df["label"].tolist())
 
@@ -55,7 +57,7 @@ def compute_metrics(eval_preds):
     # rougeLSum expects newline after each sentence
     decoded_preds = ["\n".join(nltk.sent_tokenize(pred.strip())) for pred in decoded_preds]
     decoded_labels = ["\n".join(nltk.sent_tokenize(label.strip())) for label in decoded_labels]
-    print(decoded_preds, decoded_labels)
+    print("Pred: ", decoded_preds, "Label: ", decoded_labels)
     result = metric.compute(predictions=decoded_preds, references=decoded_labels)
     return result
 
