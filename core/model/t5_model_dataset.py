@@ -4,7 +4,7 @@ from transformers import AutoTokenizer
 from constant import *
 
 INPUT_MAX_LEN = 512
-OUTPUT_MAX_LEN = 1
+OUTPUT_MAX_LEN = 10
 
 class T5Dataset:
     def __init__(self, fragment, content, label):   

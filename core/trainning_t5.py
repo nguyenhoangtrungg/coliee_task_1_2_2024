@@ -34,30 +34,30 @@ if FAST_DEV_RUN == "1":
     train_df = train_df[:40]
     valid_df = valid_df[:40]
 
-print(valid_df["label"][:10])
+# print(valid_df["label"][:10])
 
 train_dataset = t5_model_dataset.T5Dataset(train_df["fragment"].tolist(), train_df["content"].tolist(), train_df["label"].tolist())
 valid_dataset = t5_model_dataset.T5Dataset(valid_df["fragment"].tolist(), valid_df["content"].tolist(), valid_df["label"].tolist())
 
-print(train_dataset.__getitem__(0))
-print(valid_dataset.__getitem__(0))
+# print(train_dataset.__getitem__(0))
+# print(valid_dataset.__getitem__(0))
 
 # MODEL CREATER
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 model = AutoModelForSeq2SeqLM.from_pretrained(PRETRAIN_MODEL)
-tokenizer = AutoTokenizer.from_pretrained(TOKENIZER, model_max_length=512)
+tokenizer = AutoTokenizer.from_pretrained(TOKENIZER, model_max_length=10)
 model.to(device)
 
 def compute_metrics(eval_preds):
     preds, labels = eval_preds
-    print("Preds: ", preds, "Labels: ", labels)
+    # print("Preds: ", preds, "Labels: ", labels)
 
     # decode preds and labels
     labels = np.where(labels != -100, labels, tokenizer.pad_token_id)
     decoded_preds = tokenizer.batch_decode(preds, skip_special_tokens=True)
     decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
-    print("Pred: ", decoded_preds, "Label: ", decoded_labels)
+    # print("Pred: ", decoded_preds, "Label: ", decoded_labels)
 
     # rougeLSum expects newline after each sentence
     decoded_preds = ["\n".join(nltk.sent_tokenize(pred.strip())) for pred in decoded_preds]
