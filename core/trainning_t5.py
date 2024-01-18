@@ -39,6 +39,9 @@ print(valid_df["label"][:10])
 train_dataset = t5_model_dataset.T5Dataset(train_df["fragment"].tolist(), train_df["content"].tolist(), train_df["label"].tolist())
 valid_dataset = t5_model_dataset.T5Dataset(valid_df["fragment"].tolist(), valid_df["content"].tolist(), valid_df["label"].tolist())
 
+print(train_dataset.__getitem__(0))
+print(valid_dataset.__getitem__(0))
+
 # MODEL CREATER
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
