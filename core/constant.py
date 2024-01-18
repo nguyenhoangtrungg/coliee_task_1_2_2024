@@ -29,6 +29,8 @@ parser.add_argument("--weak_dataset_path", help="Path to weak dataset", default=
 parser.add_argument("--min_weak_datas", help="Min weak datas", default=0, type=int)
 parser.add_argument("--max_weak_datas", help="Max weak datas", default=0, type=int)
 
+parser.add_argument("--model_type", help="Model type", default="bert")
+
 args = parser.parse_args()
 
 MODE = args.mode
@@ -58,3 +60,5 @@ CHOOSE_WEAK = args.choose_weak
 WEAK_DATASET_PATH = args.weak_dataset_path
 MIN_LEN = args.min_weak_datas
 MAX_LEN = args.max_weak_datas
+
+MODEL_TYPE= args.model_type

@@ -100,7 +100,7 @@ trainer.train()
 
 list_output_dir = os.listdir("/kaggle/working")
 for file in list_output_dir:
-    if "checkpoint" in file:
+    if "checkpoint" in file and "csv" not in file:
         print("Found checkpoint:", file)
         checkpoint_path = os.path.join("/kaggle/working", file)
         df = infer_model.encode_csv(valid_df, 1, checkpoint_path)

@@ -3,7 +3,7 @@ import pandas as pd
 
 from core.constant import *
 
-def create_weak_dataset(weak_dataset_path, min_len, max_len):
+def create_weak_dataset(weak_dataset_path, min_len, max_len, model_tyoe = "bert"):
     weak_dataset = support_func.read_json(weak_dataset_path)
     fragment_list = []
     content_list = []
@@ -12,6 +12,8 @@ def create_weak_dataset(weak_dataset_path, min_len, max_len):
         fragment = weak_data[0]
         content = weak_data[1]
         label = weak_data[2]
+        if model_tyoe == "t5":
+            label = str((label == "1")).lower()
         len_fragment = len(fragment.split())
         len_content = len(content.split())
         if len_fragment < min_len or len_fragment > max_len:
@@ -24,8 +26,8 @@ def create_weak_dataset(weak_dataset_path, min_len, max_len):
     return pd.DataFrame({"fragment": fragment_list, "content": content_list, "label": label_list})
 
 if __name__ == "__main__":
-    MIN_LEN = 10
-    MAX_LEN = 150
+    MIN_LEN = 20
+    MAX_LEN = 100
     WEAK_DATASET_PATH = "data/weak_label/train_data.json"
     weak_dataset = create_weak_dataset(WEAK_DATASET_PATH, MIN_LEN, MAX_LEN)
     zero_label_count = weak_dataset["label"].value_counts()

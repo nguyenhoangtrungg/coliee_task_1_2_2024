@@ -1,7 +1,7 @@
 import torch
 from transformers import BertTokenizer
 
-from constant import PRETRAIN_MODEL, TOKENIZER
+from constant import TOKENIZER
 
 
 class MultilingualBertDataset(torch.utils.data.Dataset):
