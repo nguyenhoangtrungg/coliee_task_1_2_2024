@@ -56,7 +56,7 @@ def compute_metrics(eval_preds):
     decoded_preds = ["\n".join(nltk.sent_tokenize(pred.strip())) for pred in decoded_preds]
     decoded_labels = ["\n".join(nltk.sent_tokenize(label.strip())) for label in decoded_labels]
     print(decoded_preds, decoded_labels)
-    result = metric.compute(predictions=decoded_preds, references=decoded_labels, use_stemmer=True)
+    result = metric.compute(predictions=decoded_preds, references=decoded_labels)
     return result
 
 # data_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, model=model)
