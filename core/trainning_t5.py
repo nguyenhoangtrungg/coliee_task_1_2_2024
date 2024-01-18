@@ -48,6 +48,7 @@ model.to(device)
 
 def compute_metrics(eval_preds):
     preds, labels = eval_preds
+    print("Preds: ", preds, "Labels: ", labels)
 
     # decode preds and labels
     labels = np.where(labels != -100, labels, tokenizer.pad_token_id)
