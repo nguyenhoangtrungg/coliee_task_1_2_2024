@@ -95,7 +95,6 @@ def create_single_csv_format(case, negative_mode="random", negative_num=5, model
                 ran_content_list.append(content["content"])
                 ran_name_list.append(content["name"])
                 ran_score_list.append(content["score"])
-                ran_label_list.append(0)
                 if model_type == "t5":
                     ran_label_list.append("false")    
                 else:
