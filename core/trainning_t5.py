@@ -53,6 +53,7 @@ def compute_metrics(eval_preds):
     labels = np.where(labels != -100, labels, tokenizer.pad_token_id)
     decoded_preds = tokenizer.batch_decode(preds, skip_special_tokens=True)
     decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
+    print("Pred: ", decoded_preds, "Label: ", decoded_labels)
 
     # rougeLSum expects newline after each sentence
     decoded_preds = ["\n".join(nltk.sent_tokenize(pred.strip())) for pred in decoded_preds]
