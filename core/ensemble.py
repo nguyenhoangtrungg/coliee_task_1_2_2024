@@ -1,4 +1,6 @@
-def ense(weak_list, mbert_list, t5_list):
+from core.eval.eval import csv_evaluate
+
+def ense(infer_df, weak_list, mbert_list, t5_list):
     step = 0.01
     for w_w in range(1, 100):
         w_w = w_w / 100
@@ -6,9 +8,11 @@ def ense(weak_list, mbert_list, t5_list):
             w_m = w_m / 100
             for w_t in range(1, 100):
                 w_t = w_t / 100
-                for threshold in range(50, 100):
+                for threshold in range(70, 100):
                     threshold = threshold / 100
+                    # infer_df
+                    result = csv_evaluate(infer_df, "bert_scoe", threshold)
                     print(w_w, w_m, w_t, threshold)
     return 
 
-ense(1, 2, 3)
+ense([], [], []) 

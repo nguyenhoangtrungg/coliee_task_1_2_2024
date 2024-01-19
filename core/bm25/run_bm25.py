@@ -64,6 +64,8 @@ def create_single_csv_format(case, negative_mode="random", negative_num=5, model
                 label_list.append(1)
     negative_num *= len(case["label"])
     current_negative_num = 0
+    if negative_num == 0:
+        negative_num = 100000
 
     if negative_mode == "hard":
         for content in case["output"]:
