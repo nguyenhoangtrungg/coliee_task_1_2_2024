@@ -14,6 +14,7 @@ from transformers import BertTokenizer, BertForSequenceClassification, TrainingA
 
 from constant import *
 import numpy as np
+import tqdm
 
 def sigmoid(x):
   return 1 / (1 + math.exp(-x))
@@ -61,7 +62,7 @@ def infer_csv(df):
     except:
         label = []*len(fragment)
     score_list = []
-    for i in range(len(fragment)):
+    for i in tqdm(range(len(fragment))):
         score_list.append(get_probability_token(fragment[i], content[i]))
     df["score"] = score_list
     return df
