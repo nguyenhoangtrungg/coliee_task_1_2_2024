@@ -124,7 +124,7 @@ def create_single_csv_format(case, negative_mode="random", negative_num=5, model
     return df
 
 def create_csv_format(case_list, model_mode, negative_mode="random", negative_num=5, model_type="bert"):
-    if model_mode == "test":
+    if model_mode == "test" or model_mode == "infer":
         negative_mode = "hard"
         negative_num = 1000
     total_df = pd.DataFrame()
