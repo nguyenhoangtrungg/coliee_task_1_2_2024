@@ -68,7 +68,7 @@ def infer_csv(df):
 
 
 checkpoint_path = CHECKPOINT
-model = AutoModelForSeq2SeqLM.from_pretrained(CHECKPOINT)
+model = AutoModelForSeq2SeqLM.from_pretrained(CHECKPOINT).to("cuda")
 tokenizer = AutoTokenizer.from_pretrained(TOKENIZER, model_max_length=512)
 
 dev_df = run_create_csv_bm25(TRAINING_PATH, LABEL_PATH, CSV_TRAINING_DATA_PATH, "test", NEGATIVE_MODE, NEGATIVE_NUM)
