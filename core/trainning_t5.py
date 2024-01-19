@@ -21,6 +21,8 @@ import numpy as np
 nltk.download("punkt", quiet=True)
 metric = evaluate.load("exact_match")
 
+promt = "Recognizing entailment between a decision fragment and a relevant legal paragraph."
+
 # DATA LOADING
 if CHOOSE_WEAK == 0:
     train_df = run_create_csv_bm25(TRAINING_PATH, LABEL_PATH, CSV_TRAINING_DATA_PATH, "train", NEGATIVE_MODE, NEGATIVE_NUM, "t5")
@@ -72,7 +74,6 @@ if IS_FP16 == 1:
     fp16_label = True
 else:
     fp16_label = False
-    
 training_args = Seq2SeqTrainingArguments(
     output_dir="/kaggle/working/",
     evaluation_strategy = "epoch",

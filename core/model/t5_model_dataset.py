@@ -14,6 +14,7 @@ class T5Dataset:
         self.tokenizer = AutoTokenizer.from_pretrained(TOKENIZER, model_max_length=INPUT_MAX_LEN)
         self.input_max_len = INPUT_MAX_LEN
         self.output_max_len = OUTPUT_MAX_LEN
+        self.promt = "Recognizing entailment between a decision fragment and a relevant legal paragraph. "
 
     def __len__(self):                      # This method retrives the number of item from the dataset
         return len(self.label)
@@ -25,7 +26,7 @@ class T5Dataset:
 
     def __getitem__(self, item):             # This method retrieves the item at the specified index item. 
 
-        fragment = self.fragment[item]
+        fragment = self.promt + self.fragment[item]
         content = self.content[item]
         label = self.label[item]
 
