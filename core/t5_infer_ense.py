@@ -44,8 +44,8 @@ def get_probability_token(fragment, content):
         
         local_case = {
             "token": tokenizer.decode(tok),
-            "score": score.numpy(),
-            "s_score":  np.exp(score.numpy()),
+            "score": score.cpu().data.numpy(),
+            "s_score":  np.exp(score.cpu().data.numpy()),
         }
         output.append(local_case)
     for local_case in output:
