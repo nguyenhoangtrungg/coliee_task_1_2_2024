@@ -78,7 +78,8 @@ training_args = Seq2SeqTrainingArguments(
     per_device_eval_batch_size= 1,
     save_total_limit=5,
     predict_with_generate=True,
-    disable_tqdm = False, 
+    disable_tqdm = False,
+    fp16=True,
 )
 
 trainer = Seq2SeqTrainer(
