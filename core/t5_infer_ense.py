@@ -20,7 +20,7 @@ def sigmoid(x):
   return 1 / (1 + math.exp(-x))
 
 def tokenize_pair_text(text_1, text_2):
-    return tokenizer(text_1, text_2, max_length = 512, padding='max_length', truncation=True, return_tensors="pt")
+    return tokenizer(text_1, text_2, max_length = 512, padding='max_length', truncation=True, return_tensors="pt").to(device)
 
 def get_probability_token(fragment, content):
     tokenized = tokenize_pair_text(fragment, content)
@@ -69,8 +69,10 @@ def infer_csv(df):
 
 
 checkpoint_path = CHECKPOINT
-model = AutoModelForSeq2SeqLM.from_pretrained(CHECKPOINT).to("cuda")
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model = AutoModelForSeq2SeqLM.from_pretrained(CHECKPOINT)
 tokenizer = AutoTokenizer.from_pretrained(TOKENIZER, model_max_length=512)
+model.to(device)
 
 dev_df = run_create_csv_bm25(TRAINING_PATH, LABEL_PATH, CSV_TRAINING_DATA_PATH, "test", NEGATIVE_MODE, NEGATIVE_NUM)
 
