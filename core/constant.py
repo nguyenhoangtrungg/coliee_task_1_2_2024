@@ -30,6 +30,7 @@ parser.add_argument("--min_weak_datas", help="Min weak datas", default=0, type=i
 parser.add_argument("--max_weak_datas", help="Max weak datas", default=0, type=int)
 
 parser.add_argument("--model_type", help="Model type", default="bert")
+parser.add_argument("--is_fp16", help="Is fp16", default=0, type=int)
 
 args = parser.parse_args()
 
@@ -62,3 +63,4 @@ MIN_LEN = args.min_weak_datas
 MAX_LEN = args.max_weak_datas
 
 MODEL_TYPE= args.model_type
+IS_FP16 = args.is_fp16

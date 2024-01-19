@@ -66,7 +66,13 @@ def compute_metrics(eval_preds):
     result = metric.compute(predictions=decoded_preds, references=decoded_labels)
     return result
 
+
 # data_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, model=model)
+if IS_FP16 == 1:
+    fp16_label = True
+else:
+    fp16_label = False
+    
 training_args = Seq2SeqTrainingArguments(
     output_dir="/kaggle/working/",
     evaluation_strategy = "epoch",
