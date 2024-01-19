@@ -5,7 +5,7 @@ from core.utilities import support_func
 from core.bm25.run_bm25 import run_create_csv_bm25
 
 import torch
-from transformers import BAutoModelForSeq2SeqLM, AutoTokenizer
+from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
 from constant import *
 import numpy as np

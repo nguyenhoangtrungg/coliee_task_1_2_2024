@@ -22,7 +22,7 @@ softmax_model = nn.Softmax(dim=1)
 
 dev_df = run_create_csv_bm25(TRAINING_PATH, LABEL_PATH, CSV_TRAINING_DATA_PATH, "test", NEGATIVE_MODE, NEGATIVE_NUM)
 
-test_df = run_create_csv_bm25(TESTING_PATH, LABEL_PATH, CSV_TESTING_DATA_PATH, "test", NEGATIVE_MODE, NEGATIVE_NUM)
+test_df = run_create_csv_bm25(TESTING_PATH, LABEL_PATH, CSV_TESTING_DATA_PATH, "infer", NEGATIVE_MODE, NEGATIVE_NUM)
 
 dev_dataset = model_dataset.MultilingualBertDataset(dev_df["fragment"].tolist(), dev_df["content"].tolist(), dev_df["label"].tolist())
 test_dataset = model_dataset.MultilingualBertDataset(test_df["fragment"].tolist(), test_df["content"].tolist(), test_df["label"].tolist())
