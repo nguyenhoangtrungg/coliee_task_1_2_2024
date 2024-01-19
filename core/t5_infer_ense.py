@@ -14,7 +14,7 @@ from transformers import BertTokenizer, BertForSequenceClassification, TrainingA
 
 from constant import *
 import numpy as np
-import tqdm
+from tqdm import tqdm
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
