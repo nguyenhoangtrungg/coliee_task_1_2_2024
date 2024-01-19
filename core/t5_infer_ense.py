@@ -16,6 +16,8 @@ from constant import *
 import numpy as np
 import tqdm
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 def sigmoid(x):
   return 1 / (1 + math.exp(-x))
 
@@ -69,7 +71,6 @@ def infer_csv(df):
 
 
 checkpoint_path = CHECKPOINT
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = AutoModelForSeq2SeqLM.from_pretrained(CHECKPOINT)
 tokenizer = AutoTokenizer.from_pretrained(TOKENIZER, model_max_length=512)
 model.to(device)
