@@ -33,5 +33,5 @@ test_dataset = model_dataset.MultilingualBertDataset(test_df["fragment"].tolist(
 checkpoint_path = CHECKPOINT
 d_df = infer_model.encode_csv(dev_dataset, 1, checkpoint_path)
 t_df = infer_model.encode_csv(test_dataset, 1, checkpoint_path)
-support_func.write_csv(checkpoint_path + "dev.csv", d_df)
-support_func.write_csv(checkpoint_path + "test.csv", t_df)
+support_func.write_csv("/kaggle/working/" + "dev.csv", d_df)
+support_func.write_csv("/kaggle/working/" + "test.csv", t_df)

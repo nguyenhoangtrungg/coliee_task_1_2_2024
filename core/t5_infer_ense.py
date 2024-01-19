@@ -77,5 +77,5 @@ test_df = run_create_csv_bm25(TESTING_PATH, LABEL_PATH, CSV_TESTING_DATA_PATH, "
 d_df = infer_csv(dev_df)
 t_df = infer_csv(test_df)
 
-support_func.write_csv(checkpoint_path + "dev.csv", d_df)
-support_func.write_csv(checkpoint_path + "test.csv", t_df)
+support_func.write_csv("/kaggle/working/" + "dev.csv", d_df)
+support_func.write_csv("/kaggle/working/" + "test.csv", t_df)
