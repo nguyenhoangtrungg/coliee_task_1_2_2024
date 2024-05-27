@@ -10,7 +10,7 @@ from core.weak_label import create_weak_dataset
 
 import torch
 import torch.nn as nn
-from transformers import BertTokenizer, BertForSequenceClassification, AutoTokenizer, T5ForConditionalGeneration, AutoModelForSeq2SeqLM
+from transformers import BertTokenizer, BertForSequenceClassification, AutoTokenizer, T5ForConditionalGeneration, AutoModelForSeq2SeqLM, AutoModel
 from transformers import Seq2SeqTrainer, Seq2SeqTrainingArguments, DataCollatorForSeq2Seq
 
 from constant import *
@@ -47,8 +47,8 @@ valid_dataset = t5_model_dataset.T5Dataset(valid_df["fragment"].tolist(), valid_
 # MODEL CREATER
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-model = AutoModelForSeq2SeqLM.from_pretrained(PRETRAIN_MODEL)
-tokenizer = AutoTokenizer.from_pretrained(TOKENIZER, model_max_length=10)
+model = AutoModel.from_pretrained(PRETRAIN_MODEL)
+tokenizer = AutoTokenizer.from_pretrained(TOKENIZER)
 model.to(device)
 
 def compute_metrics(eval_preds):
@@ -75,7 +75,7 @@ if IS_FP16 == 1:
 else:
     fp16_label = False
 training_args = Seq2SeqTrainingArguments(
-    output_dir="/kaggle/working/",
+    output_dir=OUTPUT_DIR,
     evaluation_strategy = "epoch",
     logging_strategy="epoch",
     save_strategy="epoch",

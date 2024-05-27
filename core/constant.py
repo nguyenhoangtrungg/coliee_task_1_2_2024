@@ -29,6 +29,8 @@ parser.add_argument("--weak_dataset_path", help="Path to weak dataset", default=
 parser.add_argument("--min_weak_datas", help="Min weak datas", default=0, type=int)
 parser.add_argument("--max_weak_datas", help="Max weak datas", default=0, type=int)
 
+parser.add_argument("--output_dir", help="Output directory", default="None")
+
 parser.add_argument("--model_type", help="Model type", default="bert")
 parser.add_argument("--is_fp16", help="Is fp16", default=0, type=int)
 
@@ -64,3 +66,5 @@ MAX_LEN = args.max_weak_datas
 
 MODEL_TYPE= args.model_type
 IS_FP16 = args.is_fp16
+
+OUTPUT_DIR = args.output_dir
