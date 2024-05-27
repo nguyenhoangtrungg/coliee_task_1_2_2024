@@ -17,7 +17,8 @@ parser.add_argument("--optimizer", help="Optimizer", default="adam")
 
 parser.add_argument("--training_path", help="Path to training data", default="None")
 parser.add_argument("--testing_path", help="Path to testing data", default="None")
-parser.add_argument("--label_path", help="Path to label data", default="None")
+parser.add_argument("--train_label_path", help="Path to train label data", default="None")
+parser.add_argument("--test_label_path", help="Path to test label data", default="None")
 parser.add_argument("--csv_training_data_path", help="Path to csv training data", default="None")
 parser.add_argument("--csv_testing_data_path", help="Path to csv testing data", default="None")
 parser.add_argument("--negative_mode", help="Negative mode", default="None")
@@ -51,7 +52,8 @@ OPTIMIZER = args.optimizer
 
 TRAINING_PATH = args.training_path
 TESTING_PATH = args.testing_path
-LABEL_PATH = args.label_path
+TRAIN_LABEL_PATH = args.train_label_path
+TEST_LABEL_PATH = args.test_label_path
 CSV_TRAINING_DATA_PATH = args.csv_training_data_path
 CSV_TESTING_DATA_PATH = args.csv_testing_data_path
 NEGATIVE_MODE = args.negative_mode
