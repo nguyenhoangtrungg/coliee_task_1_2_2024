@@ -25,12 +25,12 @@ promt = "Recognizing entailment between a decision fragment and a relevant legal
 
 # DATA LOADING
 if CHOOSE_WEAK == 0:
-    train_df = run_create_csv_bm25(TRAINING_PATH, LABEL_PATH, CSV_TRAINING_DATA_PATH, "train", NEGATIVE_MODE, NEGATIVE_NUM, "t5")
+    train_df = run_create_csv_bm25(TRAINING_PATH, TRAIN_LABEL_PATH, CSV_TRAINING_DATA_PATH, "train", NEGATIVE_MODE, NEGATIVE_NUM, "t5")
 
 elif CHOOSE_WEAK == 1:
     train_df = create_weak_dataset.create_weak_dataset(WEAK_DATASET_PATH, MIN_LEN, MAX_LEN, "t5")
 
-valid_df = run_create_csv_bm25(TESTING_PATH, LABEL_PATH, CSV_TESTING_DATA_PATH, "test", NEGATIVE_MODE, NEGATIVE_NUM, "t5")
+valid_df = run_create_csv_bm25(TESTING_PATH, TEST_LABEL_PATH, CSV_TESTING_DATA_PATH, "test", NEGATIVE_MODE, NEGATIVE_NUM, "t5")
 
 if FAST_DEV_RUN == "1":
     train_df = train_df[:40]
