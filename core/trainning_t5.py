@@ -47,7 +47,7 @@ valid_dataset = t5_model_dataset.T5Dataset(valid_df["fragment"].tolist(), valid_
 # MODEL CREATER
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-model = AutoModel.from_pretrained(PRETRAIN_MODEL)
+model = AutoModelForSeq2SeqLM.from_pretrained(PRETRAIN_MODEL)
 tokenizer = AutoTokenizer.from_pretrained(TOKENIZER)
 model.to(device)
 
