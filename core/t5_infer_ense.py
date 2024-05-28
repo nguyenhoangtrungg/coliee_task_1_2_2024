@@ -63,6 +63,7 @@ def infer_csv(df):
         score_list.append(get_probability_token(fragment[i], content[i]))
         if i == 100:
             break
+    score_list = score_list + [0]*(len(fragment) - len(score_list))``
     df["t5_score"] = score_list
     return df
 
