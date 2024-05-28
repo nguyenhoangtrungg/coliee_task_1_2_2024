@@ -70,12 +70,15 @@ model = AutoModelForSeq2SeqLM.from_pretrained(CHECKPOINT)
 tokenizer = AutoTokenizer.from_pretrained(TOKENIZER, model_max_length=512)
 model.to(device)
 
-dev_df = run_create_csv_bm25(TRAINING_PATH, LABEL_PATH, CSV_TRAINING_DATA_PATH, "test", NEGATIVE_MODE, NEGATIVE_NUM)
+dev_df = run_create_csv_bm25(TRAINING_PATH, TRAIN_LABEL_PATH, CSV_TRAINING_DATA_PATH, "test", NEGATIVE_MODE, NEGATIVE_NUM)
 
-test_df = run_create_csv_bm25(TESTING_PATH, LABEL_PATH, CSV_TESTING_DATA_PATH, "infer", NEGATIVE_MODE, NEGATIVE_NUM)
+test_df = run_create_csv_bm25(TESTING_PATH, TEST_LABEL_PATH, CSV_TESTING_DATA_PATH, "infer", NEGATIVE_MODE, NEGATIVE_NUM)
 
 d_df = infer_csv(dev_df)
 t_df = infer_csv(test_df)
 
-support_func.write_csv("/kaggle/working/" + "dev.csv", d_df)
-support_func.write_csv("/kaggle/working/" + "test.csv", t_df)
+dev_path = os.path.join(OUTPUT_DIR, "dev.csv")
+test_path = os.path.join(OUTPUT_DIR, "test.csv")
+
+support_func.write_csv(dev_path, d_df)
+support_func.write_csv(test_path, t_df)
