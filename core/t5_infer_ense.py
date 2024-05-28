@@ -61,6 +61,8 @@ def infer_csv(df):
     score_list = []
     for i in tqdm(range(len(fragment))):
         score_list.append(get_probability_token(fragment[i], content[i]))
+        if i == 100:
+            break
     df["t5_score"] = score_list
     return df
 
