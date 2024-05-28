@@ -77,8 +77,8 @@ test_df = run_create_csv_bm25(TESTING_PATH, TEST_LABEL_PATH, CSV_TESTING_DATA_PA
 d_df = infer_csv(dev_df)
 t_df = infer_csv(test_df)
 
-dev_path = os.path.join(OUTPUT_DIR, "dev.csv")
-test_path = os.path.join(OUTPUT_DIR, "test.csv")
+dev_path = os.path.join(OUTPUT_DIR, "t5_dev.csv")
+test_path = os.path.join(OUTPUT_DIR, "t5_test.csv")
 
 support_func.write_csv(dev_path, d_df)
 support_func.write_csv(test_path, t_df)
