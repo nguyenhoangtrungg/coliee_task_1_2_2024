@@ -64,7 +64,7 @@ def compute_metrics(eval_preds):
     # rougeLSum expects newline after each sentence
     decoded_preds = ["\n".join(nltk.sent_tokenize(pred.strip())) for pred in decoded_preds]
     decoded_labels = ["\n".join(nltk.sent_tokenize(label.strip())) for label in decoded_labels]
-    # print("Pred: ", decoded_preds, "Label: ", decoded_labels)
+    print("Pred: ", decoded_preds[:10], "Label: ", decoded_labels[:10])
     result = metric.compute(predictions=decoded_preds, references=decoded_labels)
     return result
 
