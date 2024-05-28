@@ -38,6 +38,10 @@ if FAST_DEV_RUN == "1":
 
 # print(valid_df["label"][:10])
 
+print("Train data: ", len(train_df), train_df["fragment"].tolist()[:2], train_df["content"].tolist()[:2], train_df["label"].tolist()[:2])
+print("Valid data: ", len(valid_df), valid_df["fragment"].tolist()[:2], valid_df["content"].tolist()[:2], valid_df["label"].tolist()[:2])
+
+
 train_dataset = t5_model_dataset.T5Dataset(train_df["fragment"].tolist(), train_df["content"].tolist(), train_df["label"].tolist())
 valid_dataset = t5_model_dataset.T5Dataset(valid_df["fragment"].tolist(), valid_df["content"].tolist(), valid_df["label"].tolist())
 
