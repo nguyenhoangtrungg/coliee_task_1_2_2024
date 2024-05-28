@@ -63,7 +63,9 @@ def infer_csv(df):
         score_list.append(get_probability_token(fragment[i], content[i]))
         if i == 100:
             break
-    score_list = score_list + [0]*(len(fragment) - len(score_list))
+    with open("t5_score.txt", "w") as f:
+        for i in score_list:
+            f.write(str(i) + "\n")
     df["t5_score"] = score_list
     return df
 
