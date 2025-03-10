@@ -9,26 +9,30 @@ import pandas as pd
 
 from tqdm import tqdm
 
+
 def create_case(folder_path):
     base_case = os.path.join(folder_path, "base_case.txt")
     entailed_fragment = os.path.join(folder_path, "entailed_fragment.txt")
-    
+
     paragraph_path = os.path.join(folder_path, "paragraphs")
 
     # read txt file
     with open(base_case, "r", encoding="utf-8") as f:
         base_case = f.read()
-    
+
     with open(entailed_fragment, "r", encoding="utf-8") as f:
         entailed_fragment = f.read()
 
     list_paragraphs = []
     paragraph_path = os.listdir(paragraph_path)
     for paragraph in paragraph_path:
-        with open(os.path.join(folder_path, "paragraphs", paragraph), "r", encoding="utf-8") as f:
+        with open(
+            os.path.join(folder_path, "paragraphs", paragraph), "r", encoding="utf-8"
+        ) as f:
             list_paragraphs.append(paragraph + "#$%" + f.read())
 
     return base_case, entailed_fragment, list_paragraphs
+
 
 def run_bm25(folder_path, label_list, topk=5):
     base_case, entailed_fragment, list_paragraphs = create_case(folder_path)
@@ -44,7 +48,10 @@ def run_bm25(folder_path, label_list, topk=5):
         "output": output,
     }
 
-def create_single_csv_format(case, negative_mode="random", negative_num=5, model_type="bert"):
+
+def create_single_csv_format(
+    case, negative_mode="random", negative_num=5, model_type="bert"
+):
     id_list = []
     fragment_list = []
     content_list = []
@@ -59,7 +66,7 @@ def create_single_csv_format(case, negative_mode="random", negative_num=5, model
             name_list.append(content["name"])
             score_list.append(content["score"])
             if model_type == "t5":
-                label_list.append("true")    
+                label_list.append("true")
             else:
                 label_list.append(1)
     negative_num *= len(case["label"])
@@ -78,7 +85,7 @@ def create_single_csv_format(case, negative_mode="random", negative_num=5, model
                 name_list.append(content["name"])
                 score_list.append(content["score"])
                 if model_type == "t5":
-                    label_list.append("false")    
+                    label_list.append("false")
                 else:
                     label_list.append(0)
                 current_negative_num += 1
@@ -98,12 +105,18 @@ def create_single_csv_format(case, negative_mode="random", negative_num=5, model
                 ran_name_list.append(content["name"])
                 ran_score_list.append(content["score"])
                 if model_type == "t5":
-                    ran_label_list.append("false")    
+                    ran_label_list.append("false")
                 else:
                     ran_label_list.append(0)
         if len(ran_fragment_list) < negative_num:
             negative_num = len(ran_fragment_list)
-
+        min_random = 0
+        max_random = 15
+        ran_id_list = ran_id_list[min_random:max_random]
+        ran_fragment_list = ran_fragment_list[min_random:max_random]
+        ran_content_list = ran_content_list[min_random:max_random]
+        ran_name_list = ran_name_list[min_random:max_random]
+        ran_score_list = ran_score_list[min_random:max_random]
         ran_list = support_func.random_list(ran_content_list, negative_num)
         ran_list.sort()
         for i in ran_list:
@@ -114,18 +127,23 @@ def create_single_csv_format(case, negative_mode="random", negative_num=5, model
             score_list.append(ran_score_list[i])
             label_list.append(ran_label_list[i])
 
-    df = pd.DataFrame({
-        "id": id_list,
-        "fragment": fragment_list,
-        "content": content_list,
-        "name": name_list,
-        "score": score_list,
-        "label": label_list,
-    })
+    df = pd.DataFrame(
+        {
+            "id": id_list,
+            "fragment": fragment_list,
+            "content": content_list,
+            "name": name_list,
+            "score": score_list,
+            "label": label_list,
+        }
+    )
 
     return df
 
-def create_csv_format(case_list, model_mode, negative_mode="random", negative_num=5, model_type="bert"):
+
+def create_csv_format(
+    case_list, model_mode, negative_mode="random", negative_num=5, model_type="bert"
+):
     if model_mode == "test" or model_mode == "infer":
         negative_mode = "hard"
         negative_num = 1000
@@ -136,7 +154,16 @@ def create_csv_format(case_list, model_mode, negative_mode="random", negative_nu
         total_df = pd.concat([total_df, df])
     return total_df
 
-def run_create_csv_bm25(data_path, label_path, output_path, model_mode, negative_mode="random", negative_num=5, model_type="bert"):
+
+def run_create_csv_bm25(
+    data_path,
+    label_path,
+    output_path,
+    model_mode,
+    negative_mode="random",
+    negative_num=5,
+    model_type="bert",
+):
     data_list = os.listdir(data_path)
     if model_mode == "infer":
         label = {}
@@ -154,7 +181,7 @@ def run_create_csv_bm25(data_path, label_path, output_path, model_mode, negative
                 label_list = []
         output_bm25 = run_bm25(os.path.join(data_path, data), label_list, 100)
         output.append(output_bm25)
-    
+
     df = create_csv_format(output, model_mode, negative_mode, negative_num, model_type)
     if model_mode == "train":
         df = df.sample(frac=1).reset_index(drop=True)
@@ -163,8 +190,10 @@ def run_create_csv_bm25(data_path, label_path, output_path, model_mode, negative
 
 
 if __name__ == "__main__":
-    label_path = "data/task2_case_entailment/task2_train_labels_2024.json"
-    folder_path = "data/task2_case_entailment/train"
-    output_path = "data/task2_output/task2_t5_random.csv"
+    label_path = "resource/task2_train_labels_2024.json"
+    folder_path = "resource/train"
+    output_path = "resource/task2_t5_random.csv"
 
-    run_create_csv_bm25(folder_path, label_path, output_path, "train", "hard", 5, "t5")
+    run_create_csv_bm25(
+        folder_path, label_path, output_path, "train", "random", 5, "t5"
+    )

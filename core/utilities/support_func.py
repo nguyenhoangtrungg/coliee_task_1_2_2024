@@ -101,12 +101,15 @@ def random_num(end_ran):
     return random.randint(0, end_ran - 1)
 
 def random_list(input_list, num):
+    trial_time = 0
     output_list = []
     while len(output_list) < num:
         ran = random_num(len(input_list))
         if ran not in output_list:
             output_list.append(ran)
-    
+        trial_time += 1
+        if trial_time == 1000:
+            break
     return output_list
 
 

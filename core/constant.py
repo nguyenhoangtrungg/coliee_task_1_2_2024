@@ -22,7 +22,7 @@ parser.add_argument("--test_label_path", help="Path to test label data", default
 parser.add_argument("--csv_training_data_path", help="Path to csv training data", default="None")
 parser.add_argument("--csv_testing_data_path", help="Path to csv testing data", default="None")
 parser.add_argument("--negative_mode", help="Negative mode", default="None")
-parser.add_argument("--negative_num", help="Number of negative sample", default=5, type=int)
+parser.add_argument("--negative_num", help="Number of negative sample", default=100, type=int)
 parser.add_argument("--fast_dev_run", help="Fast dev run", default=0)
 
 parser.add_argument("--choose_weak", help="Choose week", default=0, type=int)
@@ -35,12 +35,23 @@ parser.add_argument("--output_dir", help="Output directory", default="None")
 parser.add_argument("--model_type", help="Model type", default="bert")
 parser.add_argument("--is_fp16", help="Is fp16", default=0, type=int)
 
+parser.add_argument("--gradient_accumulation_steps", default=4, type=int)
+parser.add_argument("--weight_decay", default=0.01, type=float)
+parser.add_argument("--warmup_ratio", default=0.1, type=float)
+parser.add_argument("--optim", default="adafactor", type=str)
+parser.add_argument("--label_smoothing_factor", default=0.1, type=float)
+parser.add_argument("--fp16", default=True, type=bool)
+
+parser.add_argument("--csv_data_path", help="Path to csv weak data", default="None")
+
 args = parser.parse_args()
+
+
 
 MODE = args.mode
 PRETRAIN_MODEL = args.pretrained_model
 FREEZE_MODE = args.freeze_mode
-CHECKPOINT = args.checkpoint_path
+# CHECKPOINT = args.checkpoint_path
 TOKENIZER = args.tokenizer_path
 
 BATCH_SIZE = args.batch_size
@@ -70,3 +81,12 @@ MODEL_TYPE= args.model_type
 IS_FP16 = args.is_fp16
 
 OUTPUT_DIR = args.output_dir
+
+GRADIENT_ACCUMULATION_STEPS = args.gradient_accumulation_steps
+WEIGHT_DECAY = args.weight_decay
+WARMUP_RATIO = args.warmup_ratio
+OPTIM = args.optim
+LABEL_SMOOTHING_FACTER = args.label_smoothing_factor
+FP16 = args.fp16
+
+CSV_WEAK_DATA_PATH = args.csv_data_path

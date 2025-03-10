@@ -61,8 +61,8 @@ def infer_csv(df):
     score_list = []
     for i in tqdm(range(len(fragment))):
         score_list.append(get_probability_token(fragment[i], content[i]))
-        if i == 100:
-            break
+        # if i == 100:
+        #     break
     with open("t5_score.txt", "w") as f:
         for i in score_list:
             f.write(str(i) + "\n")
@@ -70,20 +70,20 @@ def infer_csv(df):
     return df
 
 
-checkpoint_path = CHECKPOINT
-model = AutoModelForSeq2SeqLM.from_pretrained(CHECKPOINT)
+checkpoint_path = PRETRAIN_MODEL
+model = AutoModelForSeq2SeqLM.from_pretrained(PRETRAIN_MODEL)
 tokenizer = AutoTokenizer.from_pretrained(TOKENIZER, model_max_length=512)
 model.to(device)
 
-dev_df = run_create_csv_bm25(TRAINING_PATH, TRAIN_LABEL_PATH, CSV_TRAINING_DATA_PATH, "test", NEGATIVE_MODE, NEGATIVE_NUM)
+# dev_df = run_create_csv_bm25(TRAINING_PATH, TRAIN_LABEL_PATH, CSV_TRAINING_DATA_PATH, "test", NEGATIVE_MODE, NEGATIVE_NUM)
 
-test_df = run_create_csv_bm25(TESTING_PATH, TEST_LABEL_PATH, CSV_TESTING_DATA_PATH, "infer", NEGATIVE_MODE, NEGATIVE_NUM)
+test_df = run_create_csv_bm25(TESTING_PATH, TEST_LABEL_PATH, CSV_TESTING_DATA_PATH, "test", NEGATIVE_MODE, NEGATIVE_NUM)
 
-d_df = infer_csv(dev_df)
+# d_df = infer_csv(dev_df)
 t_df = infer_csv(test_df)
 
-dev_path = os.path.join(OUTPUT_DIR, "t5_dev.csv")
+# dev_path = os.path.join(OUTPUT_DIR, "t5_dev.csv")
 test_path = os.path.join(OUTPUT_DIR, "t5_test.csv")
 
-support_func.write_csv(dev_path, d_df)
+# support_func.write_csv(dev_path, d_df)
 support_func.write_csv(test_path, t_df)
