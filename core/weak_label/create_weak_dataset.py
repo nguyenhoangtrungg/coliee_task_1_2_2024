@@ -21,6 +21,7 @@ def create_weak_dataset(
         for i in range(len(label_list)):
             label_list[i] = str(label_list[i]).lower()
         finally_df["label"] = label_list
+        # meomeo
     except:
         weak_dataset = support_func.read_json(weak_dataset_path)
         fragment_list = []
@@ -36,14 +37,16 @@ def create_weak_dataset(
                 label = label.lower()
             len_fragment = len(fragment.split())
             len_content = len(content.split())
-            if len_fragment < min_len or len_fragment > max_len:
+            if len_fragment < 10 or len_fragment > 150:
                 continue
-            if len_content < min_len or len_content > max_len:
+            if len_content < 10 or len_content > 200:
                 continue
-            fragment_lang = detect(fragment)
-            content_lang = detect(content)
-            if fragment_lang != 'en' or content_lang != 'en':
-                continue
+            # if len_content + len_fragment < min_len or len_content + len_fragment > max_len:
+            #     continue
+            # fragment_lang = detect(fragment)
+            # content_lang = detect(content)
+            # if fragment_lang != 'en' or content_lang != 'en':
+            #     continue
             fragment_list.append(fragment)
             content_list.append(content)
             label_list.append(label)
@@ -70,8 +73,8 @@ def create_weak_dataset(
 
 
 if __name__ == "__main__":
-    MIN_LEN = 20
-    MAX_LEN = 100
+    MIN_LEN = 100
+    MAX_LEN = 500
     WEAK_DATASET_PATH = "/data2/cmdir/home/test01/minhnt/coliee_task_1_2_2024/resource/weak/train_data.json"
     weak_dataset = create_weak_dataset(
         WEAK_DATASET_PATH,
