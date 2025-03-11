@@ -8,7 +8,7 @@ from core.constant import *
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
 tokenizer = AutoTokenizer.from_pretrained(TOKENIZER)
-model = AutoModelForSequenceClassification.from_pretrained(CHECKPOINT).to(device)
+model = AutoModelForSequenceClassification.from_pretrained(PRETRAIN_MODEL).to(device)
 
 softmax_model = nn.Softmax(dim=1)
 

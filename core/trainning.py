@@ -1,11 +1,8 @@
 import math
 import os
-
-from core.utilities import support_func
 from core.model import metrics
 from core.bm25.run_bm25 import run_create_csv_bm25
 from core.model import model_dataset
-from core.model import infer_model
 from core.weak_label import create_weak_dataset
 
 import torch
