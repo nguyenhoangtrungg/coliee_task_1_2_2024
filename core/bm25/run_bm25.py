@@ -117,6 +117,7 @@ def create_single_csv_format(
         ran_content_list = ran_content_list[min_random:max_random]
         ran_name_list = ran_name_list[min_random:max_random]
         ran_score_list = ran_score_list[min_random:max_random]
+        negative_num = min(negative_num, (max_random - min_random))
         ran_list = support_func.random_list(ran_content_list, negative_num)
         ran_list.sort()
         for i in ran_list:
@@ -191,8 +192,8 @@ def run_create_csv_bm25(
 
 if __name__ == "__main__":
     label_path = "resource/task2_train_labels_2024.json"
-    folder_path = "resource/train"
-    output_path = "resource/task2_t5_random.csv"
+    folder_path = "resource/test"
+    output_path = "resource/test_task2.csv"
 
     run_create_csv_bm25(
         folder_path, label_path, output_path, "train", "random", 5, "t5"
