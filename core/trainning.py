@@ -27,7 +27,7 @@ if CHOOSE_WEAK == 0:
     train_df = run_create_csv_bm25(TRAINING_PATH, TRAIN_LABEL_PATH, CSV_TRAINING_DATA_PATH, "train", NEGATIVE_MODE, NEGATIVE_NUM)
 
 elif CHOOSE_WEAK == 1:
-    train_df = create_weak_dataset.create_weak_dataset(WEAK_DATASET_PATH, CSV_WEAK_DATA_PATH, MIN_LEN, MAX_LEN, "t5", banlance=0)
+    train_df = create_weak_dataset.create_weak_dataset(WEAK_DATASET_PATH, CSV_WEAK_DATA_PATH, MIN_LEN, MAX_LEN, "bert", banlance=0)
 
 valid_df = run_create_csv_bm25(TESTING_PATH, TEST_LABEL_PATH, CSV_TESTING_DATA_PATH, "test", NEGATIVE_MODE, NEGATIVE_NUM)
 
