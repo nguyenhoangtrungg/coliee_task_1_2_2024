@@ -196,5 +196,5 @@ if __name__ == "__main__":
     output_path = "resource/test_task2.csv"
 
     run_create_csv_bm25(
-        folder_path, label_path, output_path, "train", "random", 5, "t5"
+        folder_path, label_path, output_path, "train", "random", 5, "bert"
     )

@@ -35,21 +35,25 @@ def create_weak_dataset(
             if model_type == "t5":
                 label = str((label == "1"))
                 label = label.lower()
-            len_fragment = len(fragment.split())
-            len_content = len(content.split())
-            if len_fragment < 10 or len_fragment > 150:
+            try:
+                len_fragment = len(fragment.split())
+                len_content = len(content.split())
+                if len_fragment < 10 or len_fragment > 150:
+                    continue
+                if len_content < 10 or len_content > 200:
+                    continue
+                # if len_content + len_fragment < min_len or len_content + len_fragment > max_len:
+                #     continue
+                fragment_lang = detect(fragment)
+                content_lang = detect(content)
+                if fragment_lang != 'en' or content_lang != 'en':
+                    # print(weak_data)
+                    continue
+                fragment_list.append(fragment)
+                content_list.append(content)
+                label_list.append(label)
+            except:
                 continue
-            if len_content < 10 or len_content > 200:
-                continue
-            # if len_content + len_fragment < min_len or len_content + len_fragment > max_len:
-            #     continue
-            # fragment_lang = detect(fragment)
-            # content_lang = detect(content)
-            # if fragment_lang != 'en' or content_lang != 'en':
-            #     continue
-            fragment_list.append(fragment)
-            content_list.append(content)
-            label_list.append(label)
 
         finally_df = pd.DataFrame(
             {"fragment": fragment_list, "content": content_list, "label": label_list}
@@ -71,14 +75,40 @@ def create_weak_dataset(
     else:
         return finally_df
 
+def process_weak(
+    weak_dataset_path,
+    fr_output_path,
+    en_output_path,
+):
+    fr_list = []
+    en_list = []
+    weak_dataset = support_func.read_json(weak_dataset_path)
+    for i in tqdm(range(len(weak_dataset))):
+        weak_data = weak_dataset[i]
+        fragment = weak_data[0]
+        content = weak_data[1]
+        try:
+            fragment_lang = detect(fragment)
+            content_lang = detect(content)
+            if fragment_lang != 'en' or content_lang != 'en':
+                fr_list.append(weak_data)
+            else:
+                en_list.append(weak_data)
+        except:
+            continue
+
+    support_func.write_json(fr_output_path, fr_list)
+    support_func.write_json(en_output_path, en_list)
+
 
 if __name__ == "__main__":
     MIN_LEN = 100
     MAX_LEN = 500
-    WEAK_DATASET_PATH = "/data2/cmdir/home/test01/minhnt/coliee_task_1_2_2024/resource/weak/train_data.json"
+    WEAK_DATASET_PATH="resource/weak/train_data.json"
+    CSV_WEAK_DATA_PATH="resource/weak_en.csv"
     weak_dataset = create_weak_dataset(
         WEAK_DATASET_PATH,
-        "/data2/cmdir/home/test01/minhnt/coliee_task_1_2_2024/resource/weak_en.csv",
+        CSV_WEAK_DATA_PATH,
         MIN_LEN,
         MAX_LEN,
         model_type="t5",
@@ -89,3 +119,10 @@ if __name__ == "__main__":
     print(zero_label_count)
     print(len(weak_dataset))
     print(weak_dataset.head(10))
+
+    # WEAK_DATASET_PATH = "/data2/cmdir/home/test01/minhnt/coliee_task_1_2_2024/resource/weak/train_data.json"
+    # weak_dataset = process_weak(
+    #     WEAK_DATASET_PATH,
+    #     "/data2/cmdir/home/test01/minhnt/coliee_task_1_2_2024/resource/weak/fr_weak.json",
+    #     "/data2/cmdir/home/test01/minhnt/coliee_task_1_2_2024/resource/weak/en_weak.json"
+    # )

@@ -27,7 +27,7 @@ if CHOOSE_WEAK == 0:
     train_df = run_create_csv_bm25(TRAINING_PATH, TRAIN_LABEL_PATH, CSV_TRAINING_DATA_PATH, "train", NEGATIVE_MODE, NEGATIVE_NUM)
 
 elif CHOOSE_WEAK == 1:
-    train_df = create_weak_dataset.create_weak_dataset(WEAK_DATASET_PATH, CSV_WEAK_DATA_PATH, MIN_LEN, MAX_LEN, "bert", banlance=0)
+    train_df = create_weak_dataset.create_weak_dataset(WEAK_DATASET_PATH, CSV_WEAK_DATA_PATH, MIN_LEN, MAX_LEN, model_type = "bert", banlance=0)
 
 valid_df = run_create_csv_bm25(TESTING_PATH, TEST_LABEL_PATH, CSV_TESTING_DATA_PATH, "test", NEGATIVE_MODE, NEGATIVE_NUM)
 
@@ -35,10 +35,20 @@ if FAST_DEV_RUN == "1":
     train_df = train_df[:40]
     valid_df = valid_df[:40]
 
+print("Train data len: ", len(train_df))
+print(train_df.head())
+
+print("Valid data len: ", len(valid_df))
+print(valid_df.head())
+
 train_dataset = model_dataset.MultilingualBertDataset(train_df["fragment"].tolist(), train_df["content"].tolist(), train_df["label"].tolist())
 valid_dataset = model_dataset.MultilingualBertDataset(valid_df["fragment"].tolist(), valid_df["content"].tolist(), valid_df["label"].tolist())
 
 # MODEL CREATER
+print(train_dataset.fragment[:10])
+print(train_dataset.labels[:10])
+print(valid_dataset.fragment[:10])
+print(valid_dataset.labels[:10])
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
