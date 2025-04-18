@@ -38,9 +38,9 @@ def create_weak_dataset(
             try:
                 len_fragment = len(fragment.split())
                 len_content = len(content.split())
-                if len_fragment < 10 or len_fragment > 150:
+                if len_fragment < min_len or len_fragment > max_len:
                     continue
-                if len_content < 10 or len_content > 200:
+                if len_content < min_len or len_content > max_len:
                     continue
                 # if len_content + len_fragment < min_len or len_content + len_fragment > max_len:
                 #     continue
@@ -102,8 +102,8 @@ def process_weak(
 
 
 if __name__ == "__main__":
-    MIN_LEN = 100
-    MAX_LEN = 500
+    MIN_LEN = 20
+    MAX_LEN = 150
     WEAK_DATASET_PATH="resource/weak/train_data.json"
     CSV_WEAK_DATA_PATH="resource/weak_en.csv"
     weak_dataset = create_weak_dataset(

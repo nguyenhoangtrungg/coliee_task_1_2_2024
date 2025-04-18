@@ -47,6 +47,7 @@ valid_dataset = model_dataset.MultilingualBertDataset(valid_df["fragment"].tolis
 # MODEL CREATER
 print(train_dataset.fragment[:10])
 print(train_dataset.labels[:10])
+    
 print(valid_dataset.fragment[:10])
 print(valid_dataset.labels[:10])
 
@@ -74,6 +75,7 @@ training_args = TrainingArguments(
     save_strategy="epoch",
     report_to="wandb",
     logging_steps=100,
+    max_grad_norm=1.0,
     # evaluation_strategy="steps",
     logging_strategy="steps",
     disable_tqdm = False, 

@@ -191,10 +191,10 @@ def run_create_csv_bm25(
 
 
 if __name__ == "__main__":
-    label_path = "resource/task2_train_labels_2024.json"
-    folder_path = "resource/test"
-    output_path = "resource/test_task2.csv"
+    label_path = "resource/task2_test_labels_2025_v2.json"
+    folder_path = "resource/infer"
+    output_path = "resource/2025_infer_task2.csv"
 
     run_create_csv_bm25(
-        folder_path, label_path, output_path, "train", "random", 5, "bert"
+        folder_path, label_path, output_path, "test", "random", 5, "bert"
     )

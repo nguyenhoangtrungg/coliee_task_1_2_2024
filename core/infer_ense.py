@@ -30,12 +30,12 @@ test_df = run_create_csv_bm25(TESTING_PATH, TEST_LABEL_PATH, CSV_TESTING_DATA_PA
 # t5_dev_dataset = t5_model_dataset.T5Dataset(dev_df["fragment"].tolist(), dev_df["content"].tolist(), dev_df["label"].tolist())
 # t5_test_dataset = t5_model_dataset.T5Dataset(test_df["fragment"].tolist(), test_df["content"].tolist(), test_df["label"].tolist())
 
-checkpoint_path = CHECKPOINT
+checkpoint_path = PRETRAIN_MODEL
 d_df = infer_model.encode_csv(dev_df, 1, checkpoint_path)
 t_df = infer_model.encode_csv(test_df, 1, checkpoint_path)
 
-dev_path = os.path.join(OUTPUT_DIR, "dev.csv")
-test_path = os.path.join(OUTPUT_DIR, "test.csv")
+dev_path = os.path.join(OUTPUT_DIR, "bert_test.csv")
+test_path = os.path.join(OUTPUT_DIR, "bert_infer.csv")
 
 support_func.write_csv(dev_path, d_df)
 support_func.write_csv(test_path, t_df)

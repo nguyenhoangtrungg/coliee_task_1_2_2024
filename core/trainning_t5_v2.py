@@ -163,22 +163,33 @@ def main():
         remove_unused_columns=False,
         save_total_limit=3,
         report_to="wandb",
-        logging_steps=100,
+        logging_steps=200,
         # evaluation_strategy="steps",
         logging_strategy="steps",
+        max_grad_norm=1.0,
     )
 
-
-        
-    trainer = Seq2SeqTrainer(
-        model=model,
-        args=train_args,
-        train_dataset=dataset_train,
-        tokenizer=tokenizer,
-        eval_dataset=dataset_test,
-        compute_metrics=compute_metrics,
-        data_collator=smart_batching_collate_text_only,
-    )
+    if OPTIMIZER == "SGD":    
+            trainer = Seq2SeqTrainer(
+            model=model,
+            args=train_args,
+            train_dataset=dataset_train,
+            tokenizer=tokenizer,
+            eval_dataset=dataset_test,
+            compute_metrics=compute_metrics,
+            data_collator=smart_batching_collate_text_only,
+            optimizers = (torch.optim.SGD(model.parameters(), lr=LEARNING_RATE), None)
+        )
+    else:
+        trainer = Seq2SeqTrainer(
+            model=model,
+            args=train_args,
+            train_dataset=dataset_train,
+            tokenizer=tokenizer,
+            eval_dataset=dataset_test,
+            compute_metrics=compute_metrics,
+            data_collator=smart_batching_collate_text_only,
+        )
 
     trainer.train()
 

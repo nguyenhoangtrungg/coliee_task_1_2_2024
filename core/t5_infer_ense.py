@@ -19,6 +19,11 @@ def sigmoid(x):
 def tokenize_pair_text(text_1, text_2):
     return tokenizer(text_1, text_2, max_length = 512, padding='max_length', truncation=True, return_tensors="pt").to(device)
 
+def tokenize_pair_text(text_1, text_2):
+    texts = f"Query: {text_1} Document: {text_2} Relevant:"
+    tokenized = tokenizer(texts, padding=True, truncation='longest_first', return_tensors='pt', max_length=512).to(device)
+    return tokenized
+
 def get_probability_token(fragment, content):
     tokenized = tokenize_pair_text(fragment, content)
     outputs = model.generate(
@@ -75,15 +80,18 @@ model = AutoModelForSeq2SeqLM.from_pretrained(PRETRAIN_MODEL)
 tokenizer = AutoTokenizer.from_pretrained(TOKENIZER, model_max_length=512)
 model.to(device)
 
-# dev_df = run_create_csv_bm25(TRAINING_PATH, TRAIN_LABEL_PATH, CSV_TRAINING_DATA_PATH, "test", NEGATIVE_MODE, NEGATIVE_NUM)
+dev_df = run_create_csv_bm25(TRAINING_PATH, TRAIN_LABEL_PATH, CSV_TRAINING_DATA_PATH, "test", NEGATIVE_MODE, NEGATIVE_NUM)
 
-test_df = run_create_csv_bm25(TESTING_PATH, TEST_LABEL_PATH, CSV_TESTING_DATA_PATH, "test", NEGATIVE_MODE, NEGATIVE_NUM)
+test_df = run_create_csv_bm25(TESTING_PATH, TEST_LABEL_PATH, CSV_TESTING_DATA_PATH, "infer", NEGATIVE_MODE, NEGATIVE_NUM)
 
-# d_df = infer_csv(dev_df)
+# dev_df = dev_df[:200]
+# test_df = test_df[:200]
+
+d_df = infer_csv(dev_df)
 t_df = infer_csv(test_df)
 
-# dev_path = os.path.join(OUTPUT_DIR, "t5_dev.csv")
-test_path = os.path.join(OUTPUT_DIR, "t5_test.csv")
+dev_path = os.path.join(OUTPUT_DIR, "t5_test.csv")
+test_path = os.path.join(OUTPUT_DIR, "t5_infer.csv")
 
-# support_func.write_csv(dev_path, d_df)
+support_func.write_csv(dev_path, d_df)
 support_func.write_csv(test_path, t_df)
